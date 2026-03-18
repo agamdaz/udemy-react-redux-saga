@@ -1,11 +1,13 @@
 import { Button } from "semantic-ui-react";
 
-function ButtonSaveOrCancel({ onSave, onCancel }) {
+function ButtonSaveOrCancel({ onSave }) {
   return (
     <Button.Group style={{ marginTop: 20 }}>
       <Button>Cancel</Button>
       <Button.Or />
-      <Button primary>OK</Button>
+      <Button primary onClick={onSave}>
+        OK
+      </Button>
     </Button.Group>
   );
 }
