@@ -1,9 +1,10 @@
 import EntryLine from "./EntryLine";
 
-function EntryLines({ entries, deleteEntry }) {
+function EntryLines({ entries, editEntry, deleteEntry }) {
   return entries.map((entry) => (
     <EntryLine
       key={entry.id}
+      editEntry={editEntry}
       deleteEntry={deleteEntry}
       description={entry.description}
       isExpense={entry.isExpense}

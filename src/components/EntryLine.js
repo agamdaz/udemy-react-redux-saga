@@ -1,10 +1,14 @@
-import { useState } from "react";
 import { Grid, GridRow, Icon, Segment } from "semantic-ui-react";
-import ModalEdit from "./ModalEdit";
 
-function EntryLine({ deleteEntry, description, id, isExpense = false, value }) {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
+function EntryLine({
+  editEntry,
+  deleteEntry,
+  description,
+  id,
+  isExpense = false,
+  value,
+}) {
+  const onClickEditEntry = () => editEntry(id);
   const onClickDeleteEntry = () => deleteEntry(id);
 
   return (
@@ -19,16 +23,12 @@ function EntryLine({ deleteEntry, description, id, isExpense = false, value }) {
               ${value}
             </Grid.Column>
             <Grid.Column width={3}>
-              <Icon name="edit" bordered onClick={() => setIsModalOpen(true)} />
+              <Icon name="edit" bordered onClick={onClickEditEntry} />
               <Icon name="trash" bordered onClick={onClickDeleteEntry} />
             </Grid.Column>
           </GridRow>
         </Grid>
       </Segment>
-      <ModalEdit
-        isOpen={isModalOpen}
-        closeModal={() => setIsModalOpen(false)}
-      />
     </>
   );
 }

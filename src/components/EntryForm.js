@@ -3,10 +3,10 @@ import { Form } from "semantic-ui-react";
 function EnryForm({
   description,
   isExpense,
+  value,
   setDescription,
   setIsExpense,
   setValue,
-  value,
 }) {
   return (
     <>

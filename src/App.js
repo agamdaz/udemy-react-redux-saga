@@ -5,24 +5,60 @@ import NewEntryForm from "./components/NewEntryForm";
 import DisplayBalance from "./components/DisplayBalance";
 import DisplayBalances from "./components/DisplayBalances";
 import EntryLines from "./components/EntryLines";
+import ModalEdit from "./components/ModalEdit";
 import "./App.css";
 
 function App() {
+  const [isModalEditOpen, setIsModalEditOpen] = useState(false);
   const [entries, setEntries] = useState(initialEntries);
+  const [entryIdToEdit, setEntryIdToEdit] = useState("");
+  const [description, setDescription] = useState("");
+  const [isExpense, setIsExpense] = useState(false);
+  const [value, setValue] = useState("");
+
+  const handleAddEntry = () => {
+    const result = entries.concat({
+      id: entries.length + 1,
+      description,
+      isExpense,
+      value,
+    });
+    setEntries(result);
+  };
+
+  const handleEditEntry = (id) => {
+    const entry = entries.find((e) => e.id === id);
+    if (entry) {
+      setEntryIdToEdit(entry.id);
+      setDescription(entry.description);
+      setIsExpense(entry.isExpense);
+      setValue(entry.value);
+    }
+    setIsModalEditOpen(true);
+  };
+
+  const handleSaveEditedEntry = () => {
+    const entryIndex = entries.findIndex((e) => e.id === entryIdToEdit);
+    if (entryIndex !== -1) {
+      const updatedEntries = [...entries];
+      updatedEntries[entryIndex] = {
+        ...updatedEntries[entryIndex],
+        description,
+        isExpense,
+        value,
+      };
+      setEntries(updatedEntries);
+    }
+    setIsModalEditOpen(false);
+  };
 
   const handleDeleteEntry = (id) => {
     const result = entries.filter((entry) => entry.id !== id);
     setEntries(result);
   };
 
-  const handleAddEntry = ({ description, isExpense, value }) => {
-    const result = entries.concat({
-      id: entries.length + 1,
-      description,
-      value,
-      isExpense,
-    });
-    setEntries(result);
+  const handleCloseModal = () => {
+    setIsModalEditOpen(false);
   };
 
   return (
@@ -31,9 +67,32 @@ function App() {
       <DisplayBalance title="Your balance:" value="2,550.53" />
       <DisplayBalances />
       <MainHeader title="History" type="h3" />
-      <EntryLines entries={entries} deleteEntry={handleDeleteEntry} />
+      <EntryLines
+        entries={entries}
+        editEntry={handleEditEntry}
+        deleteEntry={handleDeleteEntry}
+      />
       <MainHeader title="Add new transaction" type="h3" />
-      <NewEntryForm addEntry={handleAddEntry} />
+      <NewEntryForm
+        description={description}
+        isExpense={isExpense}
+        value={value}
+        addEntry={handleAddEntry}
+        setDescription={setDescription}
+        setIsExpense={setIsExpense}
+        setValue={setValue}
+      />
+      <ModalEdit
+        isOpen={isModalEditOpen}
+        description={description}
+        isExpense={isExpense}
+        value={value}
+        closeModal={handleCloseModal}
+        setDescription={setDescription}
+        setIsExpense={setIsExpense}
+        setValue={setValue}
+        saveEditedEntry={handleSaveEditedEntry}
+      />
     </Container>
   );
 }
