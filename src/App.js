@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Container } from "semantic-ui-react";
 import MainHeader from "./components/MainHeader";
 import NewEntryForm from "./components/NewEntryForm";
@@ -15,6 +15,20 @@ function App() {
   const [description, setDescription] = useState("");
   const [isExpense, setIsExpense] = useState(false);
   const [value, setValue] = useState("");
+  const [totalIncome, setTotalIncome] = useState(0);
+  const [totalExpenses, setTotalExpenses] = useState(0);
+
+  useEffect(() => {
+    let totalIncome = 0;
+    let totalExpenses = 0;
+    entries.forEach((entry) =>
+      entry.isExpense
+        ? (totalExpenses += entry.value)
+        : (totalIncome += entry.value),
+    );
+    setTotalIncome(totalIncome);
+    setTotalExpenses(totalExpenses);
+  }, [entries]);
 
   const handleAddEntry = () => {
     const result = entries.concat({
@@ -64,8 +78,14 @@ function App() {
   return (
     <Container>
       <MainHeader title="Budget" />
-      <DisplayBalance title="Your balance:" value="2,550.53" />
-      <DisplayBalances />
+      <DisplayBalance
+        title="Your balance:"
+        value={totalIncome - totalExpenses}
+      />
+      <DisplayBalances
+        totalIncome={totalIncome}
+        totalExpenses={totalExpenses}
+      />
       <MainHeader title="History" type="h3" />
       <EntryLines
         entries={entries}
