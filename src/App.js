@@ -6,7 +6,6 @@ import DisplayBalance from "./components/DisplayBalance";
 import DisplayBalances from "./components/DisplayBalances";
 import EntryLines from "./components/EntryLines";
 import ModalEdit from "./components/ModalEdit";
-import { createStore } from "redux";
 import "./App.css";
 
 function App() {
@@ -30,35 +29,6 @@ function App() {
     setTotalIncome(totalIncome);
     setTotalExpenses(totalExpenses);
   }, [entries]);
-
-  const store = createStore((state = initialEntries, action) => {
-    let newState;
-
-    switch (action.type) {
-      case "ADD_ENTRY":
-        newState = state.concat({ ...action.payload });
-        return newState;
-      case "REMOVE_ENTRY":
-        newState = state.filter((entry) => entry.id !== action.payload.id);
-        return newState;
-      default:
-        return state;
-    }
-  });
-
-  store.subscribe(() => {
-    console.log("STORE CHANGED: ", store.getState());
-  });
-
-  const newEntry = {
-    id: 5,
-    description: "Hello from Redux",
-    value: 100.0,
-    isExpense: false,
-  };
-
-  store.dispatch({ type: "ADD_ENTRY", payload: newEntry });
-  store.dispatch({ type: "REMOVE_ENTRY", payload: { id: 1 } });
 
   const handleAddEntry = () => {
     const result = entries.concat({
