@@ -1,15 +1,11 @@
 import { Grid, GridRow, Icon, Segment } from "semantic-ui-react";
+import { useDispatch } from "react-redux";
+import { removeEntry } from "../actions/entries.actions";
 
-function EntryLine({
-  editEntry,
-  deleteEntry,
-  description,
-  id,
-  isExpense = false,
-  value,
-}) {
+function EntryLine({ editEntry, description, id, isExpense = false, value }) {
+  const dispatch = useDispatch();
   const onClickEditEntry = () => editEntry(id);
-  const onClickDeleteEntry = () => deleteEntry(id);
+  const handleDeleteEntry = () => dispatch(removeEntry(id));
 
   return (
     <>
@@ -24,7 +20,7 @@ function EntryLine({
             </Grid.Column>
             <Grid.Column width={3}>
               <Icon name="edit" bordered onClick={onClickEditEntry} />
-              <Icon name="trash" bordered onClick={onClickDeleteEntry} />
+              <Icon name="trash" bordered onClick={handleDeleteEntry} />
             </Grid.Column>
           </GridRow>
         </Grid>

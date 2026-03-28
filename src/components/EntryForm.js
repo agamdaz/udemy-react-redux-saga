@@ -20,13 +20,14 @@ function EnryForm({
           onChange={(event) => setDescription(event.target.value)}
         />
         <Form.Input
+          type="number"
           icon="dollar"
           iconPosition="left"
           width={6}
           label="Value"
           placeholder="100.00"
           value={value}
-          onChange={(event) => setValue(event.target.value)}
+          onChange={(event) => setValue(parseInt(event.target.value))}
         />
       </Form.Group>
       <Form.Group>

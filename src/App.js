@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { Container } from "semantic-ui-react";
 import MainHeader from "./components/MainHeader";
 import NewEntryForm from "./components/NewEntryForm";
@@ -10,13 +11,14 @@ import "./App.css";
 
 function App() {
   const [isModalEditOpen, setIsModalEditOpen] = useState(false);
-  const [entries, setEntries] = useState(initialEntries);
   const [entryIdToEdit, setEntryIdToEdit] = useState("");
   const [description, setDescription] = useState("");
   const [isExpense, setIsExpense] = useState(false);
   const [value, setValue] = useState("");
   const [totalIncome, setTotalIncome] = useState(0);
   const [totalExpenses, setTotalExpenses] = useState(0);
+
+  const entries = useSelector((state) => state.entries);
 
   useEffect(() => {
     let totalIncome = 0;
@@ -37,7 +39,7 @@ function App() {
       isExpense,
       value,
     });
-    setEntries(result);
+    // setEntries(result);
   };
 
   const handleEditEntry = (id) => {
@@ -61,14 +63,9 @@ function App() {
         isExpense,
         value,
       };
-      setEntries(updatedEntries);
+      // setEntries(updatedEntries);
     }
     setIsModalEditOpen(false);
-  };
-
-  const handleDeleteEntry = (id) => {
-    const result = entries.filter((entry) => entry.id !== id);
-    setEntries(result);
   };
 
   const handleCloseModal = () => {
@@ -87,21 +84,9 @@ function App() {
         totalExpenses={totalExpenses}
       />
       <MainHeader title="History" type="h3" />
-      <EntryLines
-        entries={entries}
-        editEntry={handleEditEntry}
-        deleteEntry={handleDeleteEntry}
-      />
+      <EntryLines entries={entries} editEntry={handleEditEntry} />
       <MainHeader title="Add new transaction" type="h3" />
-      <NewEntryForm
-        description={description}
-        isExpense={isExpense}
-        value={value}
-        addEntry={handleAddEntry}
-        setDescription={setDescription}
-        setIsExpense={setIsExpense}
-        setValue={setValue}
-      />
+      <NewEntryForm />
       <ModalEdit
         isOpen={isModalEditOpen}
         description={description}
@@ -118,10 +103,3 @@ function App() {
 }
 
 export default App;
-
-var initialEntries = [
-  { id: 1, description: "Work income", value: 1000.0, isExpense: false },
-  { id: 2, description: "Water bill", value: 20.0, isExpense: true },
-  { id: 3, description: "Rent", value: 200.0, isExpense: true },
-  { id: 4, description: "Power bill", value: 50.0, isExpense: true },
-];
