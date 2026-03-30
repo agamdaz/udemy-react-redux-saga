@@ -7,5 +7,6 @@ export default () => {
     combineReducers({
       entries: entriesReducer,
     }),
+    window.__REDUX_DEVTOOLS_EXTENSION__?.(),
   );
 };
