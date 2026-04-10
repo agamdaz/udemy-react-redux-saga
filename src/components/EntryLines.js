@@ -1,15 +1,8 @@
 import EntryLine from "./EntryLine";
 
-function EntryLines({ entries, editEntry }) {
+function EntryLines({ entries }) {
   return entries.map((entry) => (
-    <EntryLine
-      key={entry.id}
-      editEntry={editEntry}
-      description={entry.description}
-      isExpense={entry.isExpense}
-      id={entry.id}
-      value={entry.value}
-    />
+    <EntryLine key={entry.id} {...entry}/>
   ));
 }
 

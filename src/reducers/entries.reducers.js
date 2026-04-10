@@ -7,6 +7,14 @@ export default (state = initialEntries, action) => {
     case "REMOVE_ENTRY":
       newState = state.filter((entry) => entry.id !== action.payload.id);
       return newState;
+    case "EDIT_ENTRY":
+      newState = state.map((entry) => {
+        if (entry.id === action.payload.id) {
+          return { ...entry, ...action.payload };
+        }
+        return entry;
+      });
+      return newState;
     default:
       return state;
   }

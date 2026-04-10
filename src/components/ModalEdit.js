@@ -1,17 +1,22 @@
 import { Button, Modal } from "semantic-ui-react";
 import EntryForm from "./EntryForm";
+import useEntryDetails from "../hooks/useEntryDetails";
 
-function ModalEdit({
-  isOpen,
-  closeModal,
-  description,
-  isExpense,
-  value,
-  setDescription,
-  setIsExpense,
-  setValue,
-  saveEditedEntry,
-}) {
+function ModalEdit({ entry, isOpen }) {
+  const {
+    description,
+    value,
+    isExpense,
+    setDescription,
+    setValue,
+    setIsExpense,
+    onCloseModal,
+    onSaveModal,
+  } = useEntryDetails(entry);
+
+  const handleClose = onCloseModal;
+  const handleSave = onSaveModal;
+
   return (
     <Modal open={isOpen}>
       <Modal.Header>Edit entry</Modal.Header>
@@ -26,14 +31,8 @@ function ModalEdit({
         />
       </Modal.Content>
       <Modal.Actions>
-        <Button onClick={closeModal}>Close</Button>
-        <Button
-          onClick={() => {
-            saveEditedEntry();
-            closeModal();
-          }}
-          primary
-        >
+        <Button onClick={handleClose}>Close</Button>
+        <Button onClick={handleSave} primary>
           Save
         </Button>
       </Modal.Actions>

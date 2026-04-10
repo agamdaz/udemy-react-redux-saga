@@ -6,10 +6,10 @@ import useEntryDetails from "../hooks/useEntryDetails";
 function NewEntryForm() {
   const {
     description,
-    setDescription,
     value,
-    setValue,
     isExpense,
+    setDescription,
+    setValue,
     setIsExpense,
     addEntry,
   } = useEntryDetails();

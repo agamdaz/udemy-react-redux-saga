@@ -1,10 +1,11 @@
 import { Grid, GridRow, Icon, Segment } from "semantic-ui-react";
 import { useDispatch } from "react-redux";
 import { removeEntry } from "../actions/entries.actions";
+import { openEditModal } from "../actions/modals.actions";
 
-function EntryLine({ editEntry, description, id, isExpense = false, value }) {
+function EntryLine({ description, id, isExpense = false, value }) {
   const dispatch = useDispatch();
-  const onClickEditEntry = () => editEntry(id);
+  const onClickEditEntry = () => dispatch(openEditModal(id));
   const handleDeleteEntry = () => dispatch(removeEntry(id));
 
   return (

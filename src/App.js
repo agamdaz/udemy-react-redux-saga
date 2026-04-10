@@ -10,15 +10,16 @@ import ModalEdit from "./components/ModalEdit";
 import "./App.css";
 
 function App() {
-  const [isModalEditOpen, setIsModalEditOpen] = useState(false);
-  const [entryIdToEdit, setEntryIdToEdit] = useState("");
-  const [description, setDescription] = useState("");
-  const [isExpense, setIsExpense] = useState(false);
-  const [value, setValue] = useState("");
+  const [selectedEntry, setSelectedEntry] = useState({});
   const [totalIncome, setTotalIncome] = useState(0);
   const [totalExpenses, setTotalExpenses] = useState(0);
 
   const entries = useSelector((state) => state.entries);
+  const { isOpen, id } = useSelector((state) => state.modals);
+
+  const updateSelectedEntry = () => {
+    setSelectedEntry(entries.find((e) => e.id === id) || {});
+  };
 
   useEffect(() => {
     let totalIncome = 0;
@@ -32,45 +33,7 @@ function App() {
     setTotalExpenses(totalExpenses);
   }, [entries]);
 
-  const handleAddEntry = () => {
-    const result = entries.concat({
-      id: entries.length + 1,
-      description,
-      isExpense,
-      value,
-    });
-    // setEntries(result);
-  };
-
-  const handleEditEntry = (id) => {
-    const entry = entries.find((e) => e.id === id);
-    if (entry) {
-      setEntryIdToEdit(entry.id);
-      setDescription(entry.description);
-      setIsExpense(entry.isExpense);
-      setValue(entry.value);
-    }
-    setIsModalEditOpen(true);
-  };
-
-  const handleSaveEditedEntry = () => {
-    const entryIndex = entries.findIndex((e) => e.id === entryIdToEdit);
-    if (entryIndex !== -1) {
-      const updatedEntries = [...entries];
-      updatedEntries[entryIndex] = {
-        ...updatedEntries[entryIndex],
-        description,
-        isExpense,
-        value,
-      };
-      // setEntries(updatedEntries);
-    }
-    setIsModalEditOpen(false);
-  };
-
-  const handleCloseModal = () => {
-    setIsModalEditOpen(false);
-  };
+  useEffect(updateSelectedEntry, [isOpen, id, updateSelectedEntry]);
 
   return (
     <Container>
@@ -84,20 +47,10 @@ function App() {
         totalExpenses={totalExpenses}
       />
       <MainHeader title="History" type="h3" />
-      <EntryLines entries={entries} editEntry={handleEditEntry} />
+      <EntryLines entries={entries} />
       <MainHeader title="Add new transaction" type="h3" />
       <NewEntryForm />
-      <ModalEdit
-        isOpen={isModalEditOpen}
-        description={description}
-        isExpense={isExpense}
-        value={value}
-        closeModal={handleCloseModal}
-        setDescription={setDescription}
-        setIsExpense={setIsExpense}
-        setValue={setValue}
-        saveEditedEntry={handleSaveEditedEntry}
-      />
+      <ModalEdit isOpen={isOpen} entry={selectedEntry} />
     </Container>
   );
 }
