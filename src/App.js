@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { use, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Container } from "semantic-ui-react";
 import MainHeader from "./components/MainHeader";
 import NewEntryForm from "./components/NewEntryForm";
@@ -7,6 +7,7 @@ import DisplayBalance from "./components/DisplayBalance";
 import DisplayBalances from "./components/DisplayBalances";
 import EntryLines from "./components/EntryLines";
 import ModalEdit from "./components/ModalEdit";
+import { getEntries } from "./actions/entries.actions";
 import "./App.css";
 
 function App() {
@@ -34,6 +35,12 @@ function App() {
   }, [entries]);
 
   useEffect(updateSelectedEntry, [isOpen, id, entries]);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getEntries());
+  }, []);
 
   return (
     <Container>

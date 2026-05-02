@@ -1,5 +1,5 @@
-import * as testSaga from "./testSaga";
+import * as entriesSaga from "./entriesSaga";
 
 export function initSagas(sagasMiddleware) {
-  Object.values(testSaga).forEach((saga) => sagasMiddleware.run(saga));
+  Object.values(entriesSaga).forEach((saga) => sagasMiddleware.run(saga));
 }
