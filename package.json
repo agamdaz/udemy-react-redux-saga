@@ -12,6 +12,7 @@
     "react-redux": "^9.2.0",
     "react-scripts": "5.0.1",
     "redux": "^5.0.1",
+    "redux-saga": "^1.4.2",
     "semantic-ui-css": "^2.5.0",
     "semantic-ui-react": "^2.1.5",
     "uuid": "^13.0.0",

@@ -33,7 +33,7 @@ function App() {
     setTotalExpenses(totalExpenses);
   }, [entries]);
 
-  useEffect(updateSelectedEntry, [isOpen, id, updateSelectedEntry]);
+  useEffect(updateSelectedEntry, [isOpen, id, entries]);
 
   return (
     <Container>
