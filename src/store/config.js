@@ -3,7 +3,7 @@ import createSagaMiddleware from "redux-saga";
 
 import entriesReducer from "../reducers/entries.reducers";
 import modalsReducer from "../reducers/modals.reducers";
-import { testSaga } from "../sagas/testSaga";
+import { initSagas } from "../sagas";
 
 const sagaMiddleware = createSagaMiddleware();
 const middlewares = [sagaMiddleware];
@@ -16,9 +16,9 @@ export default () => {
     }),
     compose(
       applyMiddleware(...middlewares),
-      window.__REDUX_DEVTOOLS_EXTENSION__?.()
+      window.__REDUX_DEVTOOLS_EXTENSION__?.(),
     ),
   );
-  sagaMiddleware.run(testSaga);
+  initSagas(sagaMiddleware);
   return store;
 };
